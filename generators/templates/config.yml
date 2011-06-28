@@ -1,0 +1,18 @@
+---
+
+base: &base
+  foo: bar
+  nested:
+    tree: value
+  array:
+    - value 1
+    - value 2
+
+development: &development
+  <<: *base
+
+test: &test
+  <<: *base
+
+production: &production
+  <<: *base

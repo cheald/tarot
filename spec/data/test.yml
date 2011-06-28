@@ -1,0 +1,12 @@
+---
+development: &development
+  foo: bar
+  fizz: buzz
+  nested:
+    tree:
+      with:
+        value: 42
+
+production: &production
+  <<: *development
+  fizz: bang

@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Tarot::VERSION
   s.authors     = ["Chris Heald"]
   s.email       = ["cheald@gmail.com"]
-  s.homepage    = "http://coffeepowered.net"
+  s.homepage    = "https://github.com/cheald/tarot"
   s.summary     = %q{Tarot is a small, concise configuration library for Rails apps.}
   s.description = %q{Tarot is a small, concise configuration library for Rails apps.}
 

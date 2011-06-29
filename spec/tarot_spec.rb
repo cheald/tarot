@@ -33,6 +33,10 @@ describe Tarot do
       @tarot.fizz.should == "buzz"
       @tarot.fizz(nil, "production").should == "bang"
     end
+
+    it "should fail when method_missing follows a multi-level chain that doesn't exist" do
+      lambda { @tarot.blarg.blaze }.should raise_error(NameError)
+    end
   end
 
   context "Given multiple config files" do

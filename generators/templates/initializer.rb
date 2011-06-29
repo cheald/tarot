@@ -1,4 +1,4 @@
-Config = Tarot::Config.new(File.join(Rails.root, "config", "tarot.yml"), Rails.env)
+Settings = Tarot::Config.new(File.join(Rails.root, "config", "tarot.yml"), Rails.env)
 def config *args
-  Config.get *args
+  Settings.get *args
 end

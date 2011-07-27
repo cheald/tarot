@@ -8,10 +8,14 @@ module Tarot
       @config_files = files
       @config_files = [@config_files] if @config_files.is_a? String
       @yaml = {}
+      yaml = "---\n" + @config_files.map do |file|
+        File.open(file).read.untaint.gsub(/^---.*$/, '')
+      end.join("\n")
+      @yaml = YAML::load(yaml).stringify_keys!
       @config_files.each do |file|
-        yaml = YAML::load(File.open(file).read.untaint).stringify_keys!
-        recursive_merge @yaml, yaml
-      end
+        yaml = YAML::load(open(file).read).stringify_keys!
+        recursive_merge(@yaml, yaml)
+      end      
       add_mm @yaml
       @config_cache = {}
       @env = env
@@ -20,6 +24,13 @@ module Tarot
     def get(key, default = nil, env = @env)
       @config_cache[env] ||= {}
       @config_cache[env][key] ||= key.split('.').inject(@yaml[env || @env]) {|e, part| e.try(:[], part) } || default
+    end
+
+    def with_environment(env)
+      old_env, self.env = self.env, env
+      yield if block_given?
+      self.env = old_env
+      nil
     end
 
     private

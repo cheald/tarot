@@ -37,14 +37,29 @@ describe Tarot do
     it "should fail when method_missing follows a multi-level chain that doesn't exist" do
       lambda { @tarot.blarg.blaze }.should raise_error(NameError)
     end
+
+    it "should accept an override environment as a block" do
+      @tarot.with_environment("production") do
+        @tarot.env.should == "production"
+        @tarot.get("fizz").should == "bang"
+      end      
+      @tarot.env.should == "development"
+    end
   end
 
   context "Given multiple config files" do
+    before :all do
+        @tarot = Tarot::Config.new(["spec/data/test.yml", "spec/data/recursive.yml"], "development")
+    end
+
     it "should produce a recursively merged hash when given multiple files to load" do
-      @tarot = Tarot::Config.new(["spec/data/test.yml", "spec/data/recursive.yml"], "development")
       @tarot.get("foo").should == "fizzle"
       @tarot.get("mah").should == "rizzle"
       @tarot.get("fizz").should == "buzz"
+    end
+
+    it "should accept YAML inclusions across files" do
+      @tarot.get("included").should == true
     end
   end
 end

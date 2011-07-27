@@ -1,4 +1,7 @@
 ---
+inclusion: &inclusion
+  included: true
+  
 development: &development
   foo: bar
   fizz: buzz

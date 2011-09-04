@@ -26,11 +26,23 @@ module Tarot
       @config_cache[env][key] ||= key.split('.').inject(@yaml[env || @env]) {|e, part| e.try(:[], part) } || default
     end
 
+    def merge(hash, namespace = nil)
+      target = namespace.nil? ? @yaml[@env] : get(namespace)
+      add_mm hash
+      recursive_merge(target, hash)
+      @config_cache.clear
+    end
+
+    def merge_file(file, namespace = nil)
+      merge YAML::load(open(file).read).stringify_keys!, namespace
+    end
+
     def with_environment(env)
+      env ||= self.env
       old_env, self.env = self.env, env
-      yield if block_given?
+      result = yield if block_given?
       self.env = old_env
-      nil
+      result
     end
 
     private

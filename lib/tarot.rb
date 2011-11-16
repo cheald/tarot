@@ -8,14 +8,14 @@ module Tarot
       @config_files = files
       @config_files = [@config_files] if @config_files.is_a? String
       @yaml = {}
-      yaml = "---\n" + @config_files.map do |file|
+      @raw_yaml = "---\n" + @config_files.map do |file|
         File.open(file).read.untaint.gsub(/^---.*$/, '')
       end.join("\n")
-      @yaml = YAML::load(yaml).stringify_keys!
-      @config_files.each do |file|
-        yaml = YAML::load(open(file).read).stringify_keys!
-        recursive_merge(@yaml, yaml)
-      end      
+      @yaml = YAML::load(@raw_yaml).stringify_keys!
+      #@config_files.each do |file|
+      #  yaml = YAML::load(open(file).read).stringify_keys!
+      #  recursive_merge(@yaml, yaml)
+      #end      
       add_mm @yaml
       @config_cache = {}
       @env = env

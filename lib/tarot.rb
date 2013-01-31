@@ -15,12 +15,12 @@ module Tarot
       #@config_files.each do |file|
       #  yaml = YAML::load(open(file).read).stringify_keys!
       #  recursive_merge(@yaml, yaml)
-      #end      
+      #end
       add_mm @yaml
       @config_cache = {}
       @env = env
     end
-    
+
     def get(key, default = nil, env = @env)
       @config_cache[env] ||= {}
       @config_cache[env][key] ||= key.split('.').inject(@yaml[env || @env]) {|e, part| e.try(:[], part) } || default
@@ -80,6 +80,5 @@ module Tarot
         end
       end
     end
-
   end
 end

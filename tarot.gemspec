@@ -11,6 +11,9 @@ Gem::Specification.new do |s|
   s.summary     = %q{Tarot is a small, concise configuration library for Rails apps.}
   s.description = %q{Tarot is a small, concise configuration library for Rails apps.}
 
+  s.signing_key = '/home/chris/.gemcert/gem-private_key.pem'
+  s.cert_chain  = ['gem-public_cert.pem']
+
   s.add_dependency('activesupport')
 
   s.rubyforge_project = "tarot"
